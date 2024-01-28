@@ -5,9 +5,18 @@
                 <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
                 <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
                 <div class="submit-btn">
-                    <p-button label="Encrypt" type="submit" class="submit-btn"></p-button>
+                    <p-button label="Encrypt" type="submit"></p-button>
                 </div>
             </form>
+            <p-divider></p-divider>
+            <p-panel header="Encrypted text" [toggleable]="true" *ngIf="encryptedText">
+                <div class="copy-btn">
+                    <p-button label="Copy" type="button" (onClick)="copyEncryptedText()"></p-button>
+                </div>
+                <p>
+                    {{encryptedText}}
+                </p>
+            </p-panel>
         </p-card>
     </p-tabPanel>
     <p-tabPanel header="Decrypt notes">
