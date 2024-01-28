@@ -24,7 +24,7 @@ func Encrypt(c *gin.Context) {
 		return
 	}
 
-    c.IndentedJSON(http.StatusCreated, gin.H{"text": encryptedText})
+    c.JSON(http.StatusCreated, gin.H{"text": encryptedText})
 }
 
 func Decrypt(c *gin.Context) {
