@@ -8,10 +8,12 @@
                     <p-button label="Encrypt" type="submit"></p-button>
                 </div>
             </form>
-            <p-divider></p-divider>
+            <p-divider  *ngIf="encryptedText"></p-divider>
             <p-panel header="Encrypted text" [toggleable]="true" *ngIf="encryptedText">
                 <div class="copy-btn">
-                    <p-button label="Copy" type="button" (onClick)="copyEncryptedText()"></p-button>
+                    <p-button type="button" (onClick)="copyEncryptedText()">
+                        <i class="pi pi-copy"></i>
+                    </p-button>
                 </div>
                 <p>
                     {{encryptedText}}
