@@ -1,9 +1,24 @@
-<p-card class="" header="Encrypt notes">
-    <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
-        <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
-        <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
-        <div class="submit-btn">
-            <p-button label="Submit" type="submit" class="submit-btn"></p-button>
-        </div>
-    </form>
-</p-card>
+<p-tabView>
+    <p-tabPanel header="Encrypt notes">
+        <p-card class="" header="Encrypt notes">
+            <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
+                <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+                <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
+                <div class="submit-btn">
+                    <p-button label="Encrypt" type="submit" class="submit-btn"></p-button>
+                </div>
+            </form>
+        </p-card>
+    </p-tabPanel>
+    <p-tabPanel header="Decrypt notes">
+        <p-card class="" header="Decrypt notes">
+            <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
+                <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+                <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
+                <div class="submit-btn">
+                    <p-button label="Decrypt" type="submit" class="submit-btn"></p-button>
+                </div>
+            </form>
+        </p-card>
+    </p-tabPanel>
+</p-tabView>

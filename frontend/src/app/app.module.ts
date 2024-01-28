@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TabViewModule } from 'primeng/tabview';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +26,7 @@ import { NotesComponent } from './pages/notes/notes.component';
     FormsModule,
     InputTextareaModule,
     ReactiveFormsModule,
+    TabViewModule,
     AppRoutingModule
   ],
   providers: [],
