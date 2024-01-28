@@ -11,11 +11,11 @@
             <p-divider  *ngIf="encryptedText"></p-divider>
             <p-panel header="Encrypted text" [toggleable]="true" *ngIf="encryptedText">
                 <div class="copy-btn">
-                    <p-button type="button" (onClick)="copyEncryptedText()">
+                    <p-button type="button" pTooltip="Copy text" tooltipPosition="bottom" (onClick)="copyEncryptedText()">
                         <i class="pi pi-copy"></i>
                     </p-button>
                 </div>
-                <p>
+                <p class="encrypted-text">
                     {{encryptedText}}
                 </p>
             </p-panel>

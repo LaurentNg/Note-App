@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PanelModule } from 'primeng/panel';
 import { TabViewModule } from 'primeng/tabview';
+import { TooltipModule } from 'primeng/tooltip';
 
 import {ClipboardModule} from '@angular/cdk/clipboard';
 
@@ -32,6 +33,7 @@ import { NotesComponent } from './pages/notes/notes.component';
     ReactiveFormsModule,
     PanelModule,
     TabViewModule,
+    TooltipModule,
     ClipboardModule,
     AppRoutingModule
   ],
