@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './pages/app/app.component';
@@ -12,6 +18,12 @@ import { NotesComponent } from './pages/notes/notes.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    CardModule,
+    FormsModule,
+    InputTextareaModule,
+    ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [],

@@ -1,1 +1,9 @@
-<p>notes works!</p>
+<p-card class="" header="Encrypt notes">
+    <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
+        <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+        <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
+        <div class="submit-btn">
+            <p-button label="Submit" type="submit" class="submit-btn"></p-button>
+        </div>
+    </form>
+</p-card>
