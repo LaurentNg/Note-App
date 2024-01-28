@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"Note-App/internal/encryptor"
 	"Note-App/internal/models"
+	"Note-App/internal/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,7 @@ func Encrypt(c *gin.Context) {
         return
     }
 
-    encryptedText, err := encryptor.Encrypt(encrypt.Passphrase, encrypt.Text)
+    encryptedText, err := services.Encrypt(encrypt.Passphrase, encrypt.Text)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
@@ -35,7 +35,7 @@ func Decrypt(c *gin.Context) {
         return
     }
 
-    decryptedText, err := encryptor.Decrypt(encrypt.Passphrase, encrypt.EncryptedText)
+    decryptedText, err := services.Decrypt(encrypt.Passphrase, encrypt.EncryptedText)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return

@@ -1,4 +1,4 @@
-package encryptor
+package services
 
 import (
 	"crypto/aes"
@@ -27,6 +27,7 @@ func Encrypt(passphrase string, text string) (string, error) {
 		return "", err
 	}
 
+	// TODO: Check to enable any length text
 	textByte := make([]byte, len(text))
 	c.Encrypt(textByte, []byte(text))
 	return hex.EncodeToString(textByte), nil

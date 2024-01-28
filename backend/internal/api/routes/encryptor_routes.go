@@ -1,17 +1,12 @@
-package server
+package routes
 
 import (
 	"Note-App/internal/api/handlers"
 
 	"github.com/gin-gonic/gin"
 )
-func encryptor_routes(router *gin.Engine) {
+
+func Encryptor_routes(router *gin.RouterGroup) {
 	router.POST("/encrypt", handlers.Encrypt)
 	router.POST("/decrypt", handlers.Decrypt)
-}
-
-func Run() {
-	router := gin.Default()
-	encryptor_routes(router)
-    router.Run("localhost:8080")
 }

@@ -1,6 +1,7 @@
 package main
 
-import "Note-App/internal/api/server"
+import server "Note-App/internal/api"
+
 
 func main() {
 	server.Run()
