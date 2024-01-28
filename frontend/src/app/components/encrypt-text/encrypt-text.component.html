@@ -1,0 +1,20 @@
+<p-card class="" header="Encrypt notes">
+    <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
+        <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+        <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
+        <div class="submit-btn">
+            <p-button label="Encrypt" type="submit"></p-button>
+        </div>
+    </form>
+    <p-divider  *ngIf="encryptedText"></p-divider>
+    <p-panel header="Encrypted text" [toggleable]="true" *ngIf="encryptedText">
+        <div class="copy-btn">
+            <p-button type="button" pTooltip="Copy text" tooltipPosition="bottom" (onClick)="copyEncryptedText()">
+                <i class="pi pi-copy"></i>
+            </p-button>
+        </div>
+        <p class="encrypted-text">
+            {{encryptedText}}
+        </p>
+    </p-panel>
+</p-card>

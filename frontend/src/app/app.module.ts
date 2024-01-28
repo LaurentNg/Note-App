@@ -15,11 +15,15 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './pages/app/app.component';
 import { NotesComponent } from './pages/notes/notes.component';
+import { EncryptTextComponent } from './components/encrypt-text/encrypt-text.component';
+import { DecryptTextComponent } from './components/decrypt-text/decrypt-text.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotesComponent
+    NotesComponent,
+    EncryptTextComponent,
+    DecryptTextComponent
   ],
   imports: [
     BrowserModule,

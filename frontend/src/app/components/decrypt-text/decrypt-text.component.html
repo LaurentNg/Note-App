@@ -1,0 +1,20 @@
+<p-card class="" header="Decrypt notes">
+    <form [formGroup]="notesToDecrypt" (ngSubmit)="onSubmit()">
+        <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+        <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
+        <div class="submit-btn">
+            <p-button label="Decrypt" type="submit" class="submit-btn"></p-button>
+        </div>
+    </form>
+    <p-divider  *ngIf="decryptedText"></p-divider>
+    <p-panel header="Decrypted text" [toggleable]="true" *ngIf="decryptedText">
+        <div class="copy-btn">
+            <p-button type="button" pTooltip="Copy text" tooltipPosition="bottom" (onClick)="copyDecryptedText()">
+                <i class="pi pi-copy"></i>
+            </p-button>
+        </div>
+        <p class="decrypted-text">
+            {{decryptedText}}
+        </p>
+    </p-panel>
+</p-card>
