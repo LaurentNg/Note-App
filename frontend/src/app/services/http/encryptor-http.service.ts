@@ -10,7 +10,11 @@ export class EncryptorHttpService {
 
   constructor(private http: HttpHandlerService) { }
 
-  encrypt(encryptObj: Encryptor): Observable<any> {
-    return this.http.post<any>('encrypt', encryptObj.toDto().obj)
+  encrypt(encryptorObj: Encryptor): Observable<any> {
+    return this.http.post<any>('encrypt', encryptorObj.toDto().obj())
+  }
+
+  decrypt(encryptorObj: Encryptor): Observable<any> {
+    return this.http.post<any>('decrypt', encryptorObj.toDto().obj())
   }
 }

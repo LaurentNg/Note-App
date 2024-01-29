@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { EncryptorHttpService } from 'src/app/services/http/encryptor-http.service';
+import { Encryptor } from 'src/app/models/interfaces/encryptor';
 
 
 @Component({
@@ -14,7 +16,7 @@ export class DecryptTextComponent implements OnInit {
     passphrase: new FormControl<string>('', [Validators.required])
   });
   decryptedText = ""
-  constructor(private clipboard: Clipboard) { }
+  constructor(private clipboard: Clipboard, private encryptor: EncryptorHttpService) { }
 
   ngOnInit(): void {
   }
@@ -23,9 +25,10 @@ export class DecryptTextComponent implements OnInit {
     if (this.notesToDecrypt.valid) {
       const text = this.notesToDecrypt.get('text')?.value
       const passphrase = this.notesToDecrypt.get('passphrase')?.value
-      console.log(text)
-      console.log(passphrase)
-      this.decryptedText = text + "hey"
+      const encryptorObj = new Encryptor(text as string, passphrase as string)
+      this.encryptor.decrypt(encryptorObj).subscribe((res) => {
+        if ('text' in res) this.decryptedText = res.text
+      })
     }
     else console.log('not valid')
   }
