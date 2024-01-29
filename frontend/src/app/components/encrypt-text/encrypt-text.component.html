@@ -1,6 +1,8 @@
 <p-card class="" header="Encrypt notes">
     <form [formGroup]="notesToEncrypt" (ngSubmit)="onSubmit()">
+        <span class="font-bold block mb-2">Write your text to encrypt!</span>
         <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+        <span class="font-bold block mb-2">Create a passphrase to encrypt your text with :</span>
         <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
         <div class="submit-btn">
             <p-button label="Encrypt" type="submit"></p-button>

@@ -1,6 +1,8 @@
 <p-card class="" header="Decrypt notes">
     <form [formGroup]="notesToDecrypt" (ngSubmit)="onSubmit()">
+        <span class="font-bold block mb-2">Paste your encrypted text :</span>
         <textarea class="textarea" rows="20" pInputTextarea style="width: 100%;" formControlName="text"></textarea>
+        <span class="font-bold block mb-2">Enter your passphrase you used to encrypt your original text :</span>
         <textarea class="textarea" rows="2" pInputTextarea style="width: 100%;" formControlName="passphrase"></textarea>
         <div class="submit-btn">
             <p-button label="Decrypt" type="submit" class="submit-btn"></p-button>
