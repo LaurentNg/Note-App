@@ -11,6 +11,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
 
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './pages/app/app.component';
@@ -39,6 +41,7 @@ import { DecryptTextComponent } from './components/decrypt-text/decrypt-text.com
     TabViewModule,
     TooltipModule,
     ClipboardModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],
