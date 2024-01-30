@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: note-app-server
+    build: ./backend
+    ports:
+      - "8080:8080"
+  client:
+    container_name: note-app-client
+    build: ./frontend
+    depends_on:
+      - server
+    ports:
+      - "4200:80"
