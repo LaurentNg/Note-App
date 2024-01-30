@@ -1,4 +1,4 @@
-import { EncryptorDto } from "../dtos/encryptorDTO";
+import { EncryptorDto } from "../dtos/encryptorDto";
 
 export class Encryptor {
     text: string;
