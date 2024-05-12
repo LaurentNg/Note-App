@@ -3,12 +3,12 @@ package mongodb
 import (
 	mongodb_errors "Note-App/internal/errors/mongodb"
 	mongodb_models "Note-App/internal/models/mongodb"
+	authService "Note-App/internal/services/authentication"
 	"Note-App/internal/services/logger"
 	"context"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(newUser *mongodb_models.User) error {
@@ -22,7 +22,7 @@ func CreateUser(newUser *mongodb_models.User) error {
 	}
 
 	// Hash password
-	hashedPassword, err := hashPassword(newUser.Password)
+	hashedPassword, err := authService.HashPassword(newUser.Password)
 	if err != nil {
 		err := mongodb_errors.ErrHashPassword(newUser.Email, newUser.Username)
 		logger.Error(err.Error())
@@ -78,12 +78,4 @@ func checkExistingUser(userToCheck *mongodb_models.User) error {
 
 	err := coll.FindOne(context.TODO(), filter).Decode(&user)
 	return err
-}
-
-func hashPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
-	return string(hashedPassword), nil
 }

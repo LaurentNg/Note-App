@@ -8,4 +8,5 @@ import (
 
 func AuthenticationRoutes(router *gin.RouterGroup) {
 	router.POST("/signup", handlers.SignUp)
+	router.POST("/signin", handlers.SignIn)
 }
