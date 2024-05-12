@@ -1,7 +1,7 @@
 package mongodb
 
 import (
-	"Note-App/internal/models"
+	mongodb_models "Note-App/internal/models/mongodb"
 	"Note-App/internal/services/logger"
 	"context"
 	"errors"
@@ -15,7 +15,7 @@ var (
 	ErrExistingUser = errors.New("user already exists")
 )
 
-func CreateUser(newUser models.User) error {
+func CreateUser(newUser *mongodb_models.User) error {
 	logger.Info(fmt.Sprintf("Creating user with email: %s and username: %s", newUser.Email, newUser.Username))
 	
 	// Check if user already exists
@@ -50,24 +50,24 @@ func CreateUser(newUser models.User) error {
 	return nil
 }
 
-func GetUserByEmail(email string) (models.User, error) {
+func GetUserByEmail(email string) (mongodb_models.User, error) {
 	coll := mongoClient.Database("notedb").Collection("users")
 
-	var user models.User
+	var user mongodb_models.User
 	filter := bson.M{"email": email}
 
 	err := coll.FindOne(context.TODO(), filter).Decode(&user)
 	if err != nil {
-		return models.User{}, err
+		return mongodb_models.User{}, err
 	}
 
 	return user, nil
 }
 
-func checkExistingUser(userToCheck models.User) error {
+func checkExistingUser(userToCheck *mongodb_models.User) error {
 	coll := mongoClient.Database("notedb").Collection("users")
 
-	var user models.User
+	var user mongodb_models.User
 	filter := bson.M{
 		"$or": bson.A{
 			bson.M{"email": userToCheck.Email},

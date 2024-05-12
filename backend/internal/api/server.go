@@ -2,6 +2,7 @@ package server
 
 import (
 	"Note-App/internal/api/routes"
+	"Note-App/internal/services/mongodb"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,8 @@ import (
 func Run() {
 	router := gin.Default()
 	router.Use(cors.Default())
-	routes.Encryptor_routes(&router.RouterGroup)
+	routes.EncryptorRoutes(&router.RouterGroup)
+	routes.AuthenticationRoutes(&router.RouterGroup)
+	mongodb.ConnectMongoDb()
     router.Run()
 }
