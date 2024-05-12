@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"Note-App/internal/models"
+	"Note-App/internal/services/logger"
 	"context"
 	"errors"
 	"fmt"
@@ -14,10 +15,11 @@ var (
 )
 
 func CreateUser(newUser models.User) error {
-	fmt.Println("Creating user")
-
+	logger.Info(fmt.Sprintf("Creating user with email: %s and username: %s", newUser.Email, newUser.Username))
+	
 	// Check if user already exists
 	if err := checkExistingUser(newUser); err == nil {
+		logger.Error(fmt.Sprintf("Duplicate : user with email: %s and username: %s already exist", newUser.Email, newUser.Username))
 		return ErrExistingUser
 	}
 
@@ -29,10 +31,11 @@ func CreateUser(newUser models.User) error {
 
 	_, err = coll.InsertOne(context.TODO(), userBSON)
 	if err != nil {
+		logger.Error(fmt.Sprintf("Error creating user with email: %s and username: %s", newUser.Email, newUser.Username))
 		return err
 	}
 
-	fmt.Println("Successfully created user")
+	logger.Info(fmt.Sprintf("User with email: %s and username: %s created successfully", newUser.Email, newUser.Username))
 	return nil
 }
 

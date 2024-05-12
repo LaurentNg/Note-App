@@ -1,8 +1,8 @@
 package mongodb
 
 import (
+	"Note-App/internal/services/logger"
 	"context"
-	"fmt"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,6 +15,7 @@ func ConnectMongoDb() (error) {
 	url := ""
 	clientOptions := options.Client().ApplyURI(url)
 
+	logger.Info("Connecting to MongoDB...")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
@@ -32,6 +33,6 @@ func ConnectMongoDb() (error) {
     // }()
 
 	mongoClient = client
-	fmt.Println("Connected to MongoDB!")
+	logger.Info("Connected to MongoDB")
 	return nil
 }
