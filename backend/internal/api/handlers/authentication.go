@@ -45,7 +45,7 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
-	var userMongo, err = mongodbService.GetUserByEmail(credentials.Email)
+	userMongo, err := mongodbService.GetUserByEmail(credentials.Email)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
@@ -57,5 +57,14 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User signed in successfully"})
+	token, err := authService.GenerateToken(userMongo.Email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", token, 3600 * 24 * 30, "", "", false, true)
+
+	c.JSON(http.StatusOK, gin.H{})
 }

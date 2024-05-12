@@ -11,7 +11,10 @@ require (
 	golang.org/x/crypto v0.22.0
 )
 
-require github.com/mattn/go-colorable v0.1.13 // indirect
+require (
+	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
