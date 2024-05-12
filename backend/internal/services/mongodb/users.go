@@ -1,18 +1,14 @@
 package mongodb
 
 import (
+	mongodb_errors "Note-App/internal/errors/mongodb"
 	mongodb_models "Note-App/internal/models/mongodb"
 	"Note-App/internal/services/logger"
 	"context"
-	"errors"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
-)
-
-var (
-	ErrExistingUser = errors.New("user already exists")
 )
 
 func CreateUser(newUser *mongodb_models.User) error {
@@ -20,14 +16,16 @@ func CreateUser(newUser *mongodb_models.User) error {
 	
 	// Check if user already exists
 	if err := checkExistingUser(newUser); err == nil {
-		logger.Error(fmt.Sprintf("Duplicate : user with email: %s and username: %s already exist", newUser.Email, newUser.Username))
-		return ErrExistingUser
+		err := mongodb_errors.ErrExistingUser(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
+		return err
 	}
 
 	// Hash password
 	hashedPassword, err := hashPassword(newUser.Password)
 	if err != nil {
-		logger.Error(fmt.Sprintf("Error hashing password for user with email: %s and username: %s", newUser.Email, newUser.Username))
+		err := mongodb_errors.ErrHashPassword(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
 		return err
 	}
 
@@ -42,7 +40,8 @@ func CreateUser(newUser *mongodb_models.User) error {
 	
 	_, err = coll.InsertOne(context.TODO(), userBSON)
 	if err != nil {
-		logger.Error(fmt.Sprintf("Error creating user with email: %s and username: %s", newUser.Email, newUser.Username))
+		err := mongodb_errors.ErrCreateUser(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
 		return err
 	}
 
@@ -58,6 +57,8 @@ func GetUserByEmail(email string) (mongodb_models.User, error) {
 
 	err := coll.FindOne(context.TODO(), filter).Decode(&user)
 	if err != nil {
+		err := mongodb_errors.ErrUserNotFound(email)
+		logger.Error(err.Error())
 		return mongodb_models.User{}, err
 	}
 
