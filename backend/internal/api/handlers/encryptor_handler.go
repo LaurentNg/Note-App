@@ -2,25 +2,23 @@ package handlers
 
 import (
 	"Note-App/internal/models"
-	"Note-App/internal/services"
+	encryptorService "Note-App/internal/services/encryptor"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-// https://go.dev/doc/tutorial/web-service-gin
-
 func Encrypt(c *gin.Context) {
     var encrypt models.Encrypt
 
     if err := c.BindJSON(&encrypt); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": "The body does not respect format"})
+        c.JSON(http.StatusBadRequest, gin.H{"error": "The body does not respect format"})
         return
     }
 
-    encryptedText, err := services.Encrypt(encrypt.Passphrase, encrypt.Text)
+    encryptedText, err := encryptorService.Encrypt(encrypt.Passphrase, encrypt.Text)
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -31,13 +29,13 @@ func Decrypt(c *gin.Context) {
     var encrypt models.Decrypt
 
     if err := c.BindJSON(&encrypt); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": "The body does not respect format"})
+        c.JSON(http.StatusBadRequest, gin.H{"error": "The body does not respect format"})
         return
     }
 
-    decryptedText, err := services.Decrypt(encrypt.Passphrase, encrypt.EncryptedText)
+    decryptedText, err := encryptorService.Decrypt(encrypt.Passphrase, encrypt.EncryptedText)
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

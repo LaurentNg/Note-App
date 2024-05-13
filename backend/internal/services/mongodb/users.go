@@ -1,37 +1,47 @@
 package mongodb
 
 import (
-	"Note-App/internal/models"
+	mongodb_errors "Note-App/internal/errors/mongodb"
+	mongodb_models "Note-App/internal/models/mongodb"
+	authService "Note-App/internal/services/authentication"
 	"Note-App/internal/services/logger"
 	"context"
-	"errors"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-var (
-	ErrExistingUser = errors.New("user already exists")
-)
-
-func CreateUser(newUser models.User) error {
+func CreateUser(newUser *mongodb_models.User) error {
 	logger.Info(fmt.Sprintf("Creating user with email: %s and username: %s", newUser.Email, newUser.Username))
 	
 	// Check if user already exists
 	if err := checkExistingUser(newUser); err == nil {
-		logger.Error(fmt.Sprintf("Duplicate : user with email: %s and username: %s already exist", newUser.Email, newUser.Username))
-		return ErrExistingUser
+		err := mongodb_errors.ErrExistingUser(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
+		return err
 	}
 
+	// Hash password
+	hashedPassword, err := authService.HashPassword(newUser.Password)
+	if err != nil {
+		err := mongodb_errors.ErrHashPassword(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
+		return err
+	}
+
+	newUser.Password = hashedPassword
+
+	// Insert user into database
 	coll := mongoClient.Database("notedb").Collection("users")
 	userBSON, err := bson.Marshal(newUser)
 	if err != nil {
 		return err
 	}
-
+	
 	_, err = coll.InsertOne(context.TODO(), userBSON)
 	if err != nil {
-		logger.Error(fmt.Sprintf("Error creating user with email: %s and username: %s", newUser.Email, newUser.Username))
+		err := mongodb_errors.ErrCreateUser(newUser.Email, newUser.Username)
+		logger.Error(err.Error())
 		return err
 	}
 
@@ -39,10 +49,26 @@ func CreateUser(newUser models.User) error {
 	return nil
 }
 
-func checkExistingUser(userToCheck models.User) error {
+func GetUserByEmail(email string) (mongodb_models.User, error) {
 	coll := mongoClient.Database("notedb").Collection("users")
 
-	var user models.User
+	var user mongodb_models.User
+	filter := bson.M{"email": email}
+
+	err := coll.FindOne(context.TODO(), filter).Decode(&user)
+	if err != nil {
+		err := mongodb_errors.ErrUserNotFound(email)
+		logger.Error(err.Error())
+		return mongodb_models.User{}, err
+	}
+
+	return user, nil
+}
+
+func checkExistingUser(userToCheck *mongodb_models.User) error {
+	coll := mongoClient.Database("notedb").Collection("users")
+
+	var user mongodb_models.User
 	filter := bson.M{
 		"$or": bson.A{
 			bson.M{"email": userToCheck.Email},
