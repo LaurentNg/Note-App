@@ -67,12 +67,12 @@ func SignIn(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// func SignOut(c *gin.Context) {
-// 	c.SetSameSite(http.SameSiteLaxMode)
-// 	c.SetCookie("Authorization", "", -1, "", "", false, true)
+func SignOut(c *gin.Context) {
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", "", -1, "", "", false, true)
 	
-// 	c.JSON(http.StatusOK, gin.H{})
-// }
+	c.JSON(http.StatusOK, gin.H{})
+}
 
 func Validate(c *gin.Context) {
 	logger.Info("Validate middleware")
