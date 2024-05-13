@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"Note-App/internal/services/logger"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -26,9 +27,9 @@ func ComparePasswords(hashedPassword string, password string) error {
 	return nil
 }
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(userId string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{ 
-		   "username": username, 
+		   "userId": userId, 
 		   "exp": time.Now().Add(time.Hour * 24 * 30).Unix(), 
 		})
    
@@ -39,4 +40,22 @@ func GenerateToken(username string) (string, error) {
 	}
    
 	return tokenString, nil
+}
+
+func ValidateToken(tokenString string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		
+		return secretKey, nil
+	})
+	if err != nil {
+		logger.Error("Error validating token")
+		return nil, err
+	}
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims, nil
+	}
+	return nil, err
 }

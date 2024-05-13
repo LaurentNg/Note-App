@@ -12,8 +12,6 @@ import (
 	"github.com/jinzhu/copier"
 )
 
-// https://medium.com/@cheickzida/golang-implementing-jwt-token-authentication-bba9bfd84d60
-
 func SignUp(c *gin.Context) {
 	var user authentication_models.User
 	if err := c.BindJSON(&user); err != nil {
@@ -67,4 +65,18 @@ func SignIn(c *gin.Context) {
 	c.SetCookie("Authorization", token, 3600 * 24 * 30, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{})
+}
+
+// func SignOut(c *gin.Context) {
+// 	c.SetSameSite(http.SameSiteLaxMode)
+// 	c.SetCookie("Authorization", "", -1, "", "", false, true)
+	
+// 	c.JSON(http.StatusOK, gin.H{})
+// }
+
+func Validate(c *gin.Context) {
+	logger.Info("Validate middleware")
+	user, _ := c.Get("user")
+	
+	c.JSON(http.StatusOK, gin.H{"user": user.(authentication_models.User)})
 }

@@ -8,8 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// https://go.dev/doc/tutorial/web-service-gin
-
 func Encrypt(c *gin.Context) {
     var encrypt models.Encrypt
 
