@@ -1,8 +1,8 @@
 package authentication
 
 import (
+	authentication_errors "Note-App/internal/errors/authentication"
 	"Note-App/internal/services/logger"
-	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -45,7 +45,7 @@ func GenerateToken(userId string) (string, error) {
 func ValidateToken(tokenString string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, authentication_errors.ErrUnexpectedSigningMethod
 		}
 		
 		return secretKey, nil
