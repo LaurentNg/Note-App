@@ -35,6 +35,7 @@ func CreateUser(newUser *mongodb_models.User) error {
 	coll := mongoClient.Database("notedb").Collection("users")
 	userBSON, err := bson.Marshal(newUser)
 	if err != nil {
+		logger.Error(err.Error())
 		return err
 	}
 	

@@ -12,7 +12,7 @@ var mongoClient *mongo.Client
 
 func ConnectMongoDb() (error) {
 
-	url := ""
+	url := "mongodb+srv://laurngu:EyVr3B0EN8CPwpMt@projectcluster.ywfrl6w.mongodb.net/?retryWrites=true&w=majority&appName=ProjectCluster"
 	clientOptions := options.Client().ApplyURI(url)
 
 	logger.Info("Connecting to MongoDB...")

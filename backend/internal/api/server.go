@@ -11,8 +11,13 @@ import (
 func Run() {
 	router := gin.Default()
 	router.Use(cors.Default())
-	routes.EncryptorRoutes(&router.RouterGroup)
-	routes.AuthenticationRoutes(&router.RouterGroup)
+	router.Use(cors.Default())
+	api := router.Group("/api")
+	{
+		routes.EncryptorRoutes(api)
+		routes.AuthenticationRoutes(api)
+		routes.NotesRoutes(api)
+	}
 	mongodb.ConnectMongoDb()
-    router.Run()
+	router.Run()
 }
