@@ -5,6 +5,7 @@ import (
 	mongodb_models "Note-App/internal/models/mongodb"
 	"Note-App/internal/services/logger"
 	"context"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -12,6 +13,10 @@ import (
 
 func CreateNote(newNote *mongodb_models.Note) error {
 	coll := mongoClient.Database("notedb").Collection("notes")
+
+	date := time.Now()
+	newNote.CreatedDate = date
+	newNote.ModifiedDate = date
 
 	noteBSON, err := bson.Marshal(newNote)
 	if err != nil {
