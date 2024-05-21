@@ -29,16 +29,11 @@ func CreateNote(newNote *mongodb_models.Note) error {
 	return nil
 }
 
-func GetNotesByUserId(userId string) ([]mongodb_models.Note, error) {
+func GetNotesByUserId(userId primitive.ObjectID) ([]mongodb_models.Note, error) {
 	coll := mongoClient.Database("notedb").Collection("notes")
 
 	var notes []mongodb_models.Note
-	userIdObj, err := primitive.ObjectIDFromHex(userId)
-	if err != nil {
-		logger.Error(err.Error())
-		return nil, err
-	}
-	filter := bson.M{"userId": userIdObj}
+	filter := bson.M{"userId": userId}
 
 	cursor, err := coll.Find(context.TODO(), filter)
 	if err != nil {

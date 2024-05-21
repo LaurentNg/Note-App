@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	authentication_models "Note-App/internal/models/authentication"
 	noteMongodb_models "Note-App/internal/models/mongodb"
 	note_models "Note-App/internal/models/note"
 	"Note-App/internal/services/logger"
@@ -20,6 +21,7 @@ func CreateNote(c *gin.Context) {
 		return
 	}
 
+	note.UserId = c.MustGet("user").(authentication_models.User).ID
 	var noteMongodb noteMongodb_models.Note
 	if err := copier.Copy(&noteMongodb, &note); err != nil {
 		logger.Error(err.Error())
@@ -37,9 +39,9 @@ func CreateNote(c *gin.Context) {
 }
 
 func GetNotesByUserId(c *gin.Context) {
-	userId := c.Param("userId")
+	user, _ := c.Get("user")
 
-	notes, err := mongodb.GetNotesByUserId(userId)
+	notes, err := mongodb.GetNotesByUserId(user.(authentication_models.User).ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
