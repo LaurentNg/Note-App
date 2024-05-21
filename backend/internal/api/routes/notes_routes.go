@@ -10,4 +10,5 @@ import (
 func NotesRoutes(router *gin.RouterGroup) {
 	router.POST("/note", middlewares.TokenVerification, handlers.CreateNote)
 	router.GET("/notes", middlewares.TokenVerification, handlers.GetNotesByUserId)
+	router.DELETE("/notes/:id", middlewares.TokenVerification, handlers.DeleteNoteById)
 }

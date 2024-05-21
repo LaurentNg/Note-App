@@ -56,3 +56,15 @@ func GetNotesByUserId(c *gin.Context) {
 
 	c.JSON(http.StatusOK, notesResponse)
 }
+
+func DeleteNoteById(c *gin.Context) {
+	noteId := c.Param("id")
+
+	err := mongodb.DeleteNoteById(noteId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Note deleted successfully"})
+}

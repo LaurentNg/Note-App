@@ -60,12 +60,18 @@ func GetNotesByUserId(userId primitive.ObjectID) ([]mongodb_models.Note, error) 
 	return notes, nil
 }
 
-func DeleteNoteById(noteId primitive.ObjectID) error {
+func DeleteNoteById(noteId string) error {
 	coll := mongoClient.Database("notedb").Collection("notes")
 
-	filter := bson.M{"_id": noteId}
+	noteObjId, err := primitive.ObjectIDFromHex(noteId)
+	if err != nil {
+		logger.Error(err.Error())
+		return err
+	}
 
-	_,	err := coll.DeleteOne(context.TODO(), filter)
+	filter := bson.M{"_id": noteObjId}
+
+	_,	err = coll.DeleteOne(context.TODO(), filter)
 	if err != nil {
 		logger.Error(err.Error())
 		return err
